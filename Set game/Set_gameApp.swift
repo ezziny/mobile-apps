@@ -13,7 +13,7 @@ struct Set_gameApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            SetGameView()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }
