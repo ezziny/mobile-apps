@@ -12,6 +12,7 @@ struct SetGame {
         let shading: ShadingOptions
         let numberOfShapes: Int
         var isSelected = false
+        
         var id: Int {
             var hasher = Hasher()
             hasher.combine(color)
@@ -36,6 +37,7 @@ struct SetGame {
     private(set) var deck = [Card]()
     private(set) var presentCards = [Card]()
     private(set) var selectedCards = [Card]()
+    private(set) var discardedCards = [Card]()
     
     init() {
         newGame()
@@ -57,6 +59,7 @@ struct SetGame {
         deck.removeAll()
         presentCards.removeAll()
         selectedCards.removeAll()
+        discardedCards.removeAll()
         
         deck = ColorOptions.allCases.flatMap{color in
             ShapeOptions.allCases.flatMap{shape in
@@ -86,7 +89,7 @@ struct SetGame {
             presentCards[index] = selectedCard
 
             if selectedCards.count == 3 {
-                if isSet(selectedCards) {
+                if isSet(selectedCards){
                     handleMatchedCards()
                 } else {
                     for selected in selectedCards {
@@ -102,7 +105,7 @@ struct SetGame {
 
     
     mutating func isSet(_ set : [Card] )->Bool{
-        guard set.count == 3 else{ return false}
+        guard set.count == 3 else{ return false }
         //the idea behind Sets here is that to form a valid set all instances of attributes have to either be all similar or all different so if it's only red then we cat make a set and if it's red green and blue we can also make a set but if we have red and blue (thus we had red red blue or red blue blue it's not a valid set).
         let colorS = Set(set.map{$0.color})
         let shapeS = Set(set.map{$0.shape})
@@ -114,10 +117,14 @@ struct SetGame {
     mutating func handleMatchedCards(){
         for card in selectedCards{
             if let index = presentCards.firstIndex(where:{$0.id == card.id}){
+                discardedCards.append(presentCards[index])
                 presentCards.remove(at: index)
             }
         }
-        draw3Cards()
+        //draw3Cards() not needed in this version
         selectedCards.removeAll()
+    }
+    mutating func shuffle(){
+        presentCards.shuffle()
     }
 }

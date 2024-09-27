@@ -14,7 +14,12 @@ class ShapeSetGame: ObservableObject {
     var presentCards : [SetGame.Card]{
         model.presentCards
     }
-    
+    var deck : [SetGame.Card]{
+        model.deck
+    }
+    var discardedCards: [SetGame.Card]{
+        model.discardedCards
+    }
     var isEmptyDeck: Bool{
         model.deck.isEmpty
     }
@@ -31,6 +36,9 @@ class ShapeSetGame: ObservableObject {
     
     func startNewGame(){
         model.newGame()
+    }
+    func shuffle(){
+        model.shuffle()
     }
     
 }

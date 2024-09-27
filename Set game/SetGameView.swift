@@ -8,42 +8,84 @@ import SwiftUI
 
 struct SetGameView: View {
     @ObservedObject var viewModel = ShapeSetGame()
-    
+    @Namespace private var cardAnimation
     var body: some View {
         VStack {
             AspectVGrid(viewModel.presentCards, aspectRatio: 2/3) { card in
-                CardView(card: card, isSelected: card.isSelected)
+                CardView(card: card, isSelected: card.isSelected).matchedGeometryEffect(id: card.id, in: cardAnimation)
                     .onTapGesture {
-                        viewModel.selectCard(card)
+                        withAnimation{
+                            viewModel.selectCard(card)
+                        }
                     }
                     .padding(5)
             }
             .padding()
+            HStack{
+                deck
+                Spacer()
+                Text("cards left:\(viewModel.deck.count)").animation(nil)
+                Spacer()
+                discardedCards
+            }.padding()
 
             HStack {
-                Button("Deal 3 More Cards") {
-                    viewModel.draw3Cards()
-                }
-                .disabled(viewModel.isEmptyDeck) // Disable when deck is empty
-                
                 Button("New Game") {
-                    viewModel.startNewGame()
+                    withAnimation(.bouncy){
+                        viewModel.startNewGame()
+                    }
                 }
+                Spacer()
+                Button("shuffle") {
+                    withAnimation(.bouncy){
+                        viewModel.shuffle()
+                    }
+                }.disabled(viewModel.presentCards.count == 0)
             }
             .padding()
         }
     }
+    @ViewBuilder
+    var deck: some View {
+        if !viewModel.isEmptyDeck{
+            makeStack(viewModel.deck).overlay{
+                RoundedRectangle(cornerRadius: 10).fill(.blue).frame(width: 40,height: 60)
+                Text("+3").bold().colorInvert()
+            }.onTapGesture {
+                withAnimation(.bouncy){
+                    viewModel.draw3Cards()
+                }
+            }
+        }
+    }
+    
+@ViewBuilder var discardedCards: some View {
+        if viewModel.discardedCards.count > 0 {
+            makeStack(viewModel.discardedCards, isDiscarded: true)
+        }
+    }
+    
+    
+    func makeStack(_ cards: [SetGame.Card], isDiscarded: Bool = false) -> some View {
+        ZStack {
+            ForEach(cards) { card in
+                CardView(card: card, isDiscarded: isDiscarded, isSelected: card.isSelected)
+                    .matchedGeometryEffect(id: card.id, in: cardAnimation)
+            }
+            .frame(width: 40, height: 60)
+        }
+    }
 }
-import SwiftUI
 
 struct CardView: View {
     var card: SetGame.Card
+    var isDiscarded = false
     var isSelected : Bool
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 10).fill(Color.white)
-            RoundedRectangle(cornerRadius: 10).stroke(isSelected ? Color.blue : Color.black ,lineWidth: 3)
-            
+            RoundedRectangle(cornerRadius: 10)
+                .stroke(isSelected && !isDiscarded ? Color.blue : Color.black, lineWidth: isSelected && !isDiscarded ? 6 : 1)
             VStack {
                 ForEach(0..<card.numberOfShapes, id: \.self) { _ in
                     shapeFor(card)
@@ -55,7 +97,6 @@ struct CardView: View {
         .aspectRatio(2/3, contentMode: .fit)
     }
     
-    // Shape rendering based on card type
     @ViewBuilder
     func shapeFor(_ card: SetGame.Card) -> some View {
         let colorr = Color(colorFor(card))
@@ -70,7 +111,6 @@ struct CardView: View {
         }
     }
     
-    // Color rendering based on card type
     func colorFor(_ card: SetGame.Card) -> Color {
         switch card.color {
         case .red:
@@ -95,7 +135,6 @@ struct CardView: View {
     }
 }
 
-// Custom diamond shape
 struct Diamond: Shape {
     func path(in rect: CGRect) -> Path {
         var path = Path()
