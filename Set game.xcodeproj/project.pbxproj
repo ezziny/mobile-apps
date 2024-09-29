@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A71FA1372CA99F3B00F79819 /* FlyingText.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71FA1362CA99F3B00F79819 /* FlyingText.swift */; };
 		A79FF18A2C858DF300EED837 /* Set_gameApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79FF1892C858DF300EED837 /* Set_gameApp.swift */; };
 		A79FF18C2C858DF300EED837 /* SetGameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79FF18B2C858DF300EED837 /* SetGameView.swift */; };
 		A79FF18E2C858DF400EED837 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A79FF18D2C858DF400EED837 /* Assets.xcassets */; };
@@ -39,6 +40,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A71FA1362CA99F3B00F79819 /* FlyingText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlyingText.swift; sourceTree = SOURCE_ROOT; };
 		A79FF1862C858DF300EED837 /* Set game.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Set game.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A79FF1892C858DF300EED837 /* Set_gameApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Set_gameApp.swift; sourceTree = "<group>"; };
 		A79FF18B2C858DF300EED837 /* SetGameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetGameView.swift; sourceTree = "<group>"; };
@@ -109,6 +111,7 @@
 				A79FF1BA2C8590D100EED837 /* SetGame.swift */,
 				A79FF1BC2C85917500EED837 /* ShapeSetGame.swift */,
 				A79FF1B82C858EC700EED837 /* AspectVGrid.swift */,
+				A71FA1362CA99F3B00F79819 /* FlyingText.swift */,
 				A79FF18D2C858DF400EED837 /* Assets.xcassets */,
 				A79FF1922C858DF400EED837 /* Persistence.swift */,
 				A79FF1942C858DF400EED837 /* Set_game.xcdatamodeld */,
@@ -273,6 +276,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A79FF1BD2C85917500EED837 /* ShapeSetGame.swift in Sources */,
+				A71FA1372CA99F3B00F79819 /* FlyingText.swift in Sources */,
 				A79FF1932C858DF400EED837 /* Persistence.swift in Sources */,
 				A79FF18C2C858DF300EED837 /* SetGameView.swift in Sources */,
 				A79FF1962C858DF400EED837 /* Set_game.xcdatamodeld in Sources */,
